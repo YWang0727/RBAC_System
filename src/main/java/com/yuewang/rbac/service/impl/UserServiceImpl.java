@@ -1,9 +1,9 @@
-package generator.service.impl;
+package com.yuewang.rbac.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import generator.entity.User;
-import generator.service.UserService;
-import generator.mapper.UserMapper;
+import com.yuewang.rbac.model.entity.User;
+import com.yuewang.rbac.service.UserService;
+import com.yuewang.rbac.mapper.UserMapper;
 import org.springframework.stereotype.Service;
 
 /**

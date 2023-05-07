@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="generator.mapper.RoleMapper">
+<mapper namespace="com.yuewang.rbac.mapper.RoleMapper">
 
-    <resultMap id="BaseResultMap" type="generator.entity.Role">
+    <resultMap id="BaseResultMap" type="com.yuewang.rbac.model.entity.Role">
             <result property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>

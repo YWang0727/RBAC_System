@@ -1,4 +1,4 @@
-package generator.entity;
+package com.yuewang.rbac.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -10,22 +10,40 @@ import lombok.Data;
 
 /**
  * 
- * @TableName user_role
+ * @TableName permission
  */
-@TableName(value ="user_role")
+@TableName(value ="permission")
 @Data
-public class UserRole implements Serializable {
+public class Permission implements Serializable {
     /**
      * 
      */
-    @TableField(value = "user_id")
-    private Long userId;
+    @TableField(value = "id")
+    private Long id;
 
     /**
      * 
      */
-    @TableField(value = "role_id")
-    private Long roleId;
+    @TableField(value = "name")
+    private String name;
+
+    /**
+     * 
+     */
+    @TableField(value = "type")
+    private String type;
+
+    /**
+     * 
+     */
+    @TableField(value = "url")
+    private String url;
+
+    /**
+     * 
+     */
+    @TableField(value = "description")
+    private String description;
 
     /**
      * 
@@ -53,9 +71,12 @@ public class UserRole implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        UserRole other = (UserRole) that;
-        return (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
+        Permission other = (Permission) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+            && (this.getUrl() == null ? other.getUrl() == null : this.getUrl().equals(other.getUrl()))
+            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
             && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()));
     }
@@ -64,8 +85,11 @@ public class UserRole implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getUrl() == null) ? 0 : getUrl().hashCode());
+        result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
         return result;
@@ -77,8 +101,11 @@ public class UserRole implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", userId=").append(userId);
-        sb.append(", roleId=").append(roleId);
+        sb.append(", id=").append(id);
+        sb.append(", name=").append(name);
+        sb.append(", type=").append(type);
+        sb.append(", url=").append(url);
+        sb.append(", description=").append(description);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);

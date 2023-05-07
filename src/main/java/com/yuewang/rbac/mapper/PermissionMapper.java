@@ -1,6 +1,6 @@
-package generator.mapper;
+package com.yuewang.rbac.mapper;
 
-import generator.entity.Permission;
+import com.yuewang.rbac.model.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

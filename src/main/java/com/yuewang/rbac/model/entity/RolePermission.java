@@ -1,4 +1,4 @@
-package generator.entity;
+package com.yuewang.rbac.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;

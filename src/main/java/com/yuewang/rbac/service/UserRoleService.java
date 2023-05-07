@@ -1,6 +1,6 @@
-package generator.service;
+package com.yuewang.rbac.service;
 
-import generator.entity.UserRole;
+import com.yuewang.rbac.model.entity.UserRole;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

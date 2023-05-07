@@ -1,9 +1,9 @@
-package generator.service.impl;
+package com.yuewang.rbac.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import generator.entity.Permission;
-import generator.service.PermissionService;
-import generator.mapper.PermissionMapper;
+import com.yuewang.rbac.model.entity.Permission;
+import com.yuewang.rbac.service.PermissionService;
+import com.yuewang.rbac.mapper.PermissionMapper;
 import org.springframework.stereotype.Service;
 
 /**

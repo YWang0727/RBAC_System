@@ -1,20 +1,21 @@
-package generator.entity;
+package com.yuewang.rbac.model.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- * @TableName role
+ * @TableName user
  */
-@TableName(value ="role")
+@TableName(value ="user")
 @Data
-public class Role implements Serializable {
+public class User implements Serializable {
     /**
      * 
      */
@@ -24,14 +25,26 @@ public class Role implements Serializable {
     /**
      * 
      */
-    @TableField(value = "name")
-    private String name;
+    @TableField(value = "username")
+    private String username;
 
     /**
      * 
      */
-    @TableField(value = "description")
-    private String description;
+    @TableField(value = "password")
+    private String password;
+
+    /**
+     * 
+     */
+    @TableField(value = "phone")
+    private String phone;
+
+    /**
+     * 
+     */
+    @TableField(value = "email")
+    private String email;
 
     /**
      * 
@@ -44,6 +57,12 @@ public class Role implements Serializable {
      */
     @TableField(value = "updated_time")
     private Date updatedTime;
+
+    /**
+     * 
+     */
+    @TableField(value = "avatar")
+    private byte[] avatar;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -59,12 +78,15 @@ public class Role implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Role other = (Role) that;
+        User other = (User) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
+            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
+            && (this.getPassword() == null ? other.getPassword() == null : this.getPassword().equals(other.getPassword()))
+            && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
+            && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getCreatedTime() == null ? other.getCreatedTime() == null : this.getCreatedTime().equals(other.getCreatedTime()))
-            && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()));
+            && (this.getUpdatedTime() == null ? other.getUpdatedTime() == null : this.getUpdatedTime().equals(other.getUpdatedTime()))
+            && (Arrays.equals(this.getAvatar(), other.getAvatar()));
     }
 
     @Override
@@ -72,10 +94,13 @@ public class Role implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
+        result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
+        result = prime * result + ((getPassword() == null) ? 0 : getPassword().hashCode());
+        result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
+        result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getCreatedTime() == null) ? 0 : getCreatedTime().hashCode());
         result = prime * result + ((getUpdatedTime() == null) ? 0 : getUpdatedTime().hashCode());
+        result = prime * result + (Arrays.hashCode(getAvatar()));
         return result;
     }
 
@@ -86,10 +111,13 @@ public class Role implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", description=").append(description);
+        sb.append(", username=").append(username);
+        sb.append(", password=").append(password);
+        sb.append(", phone=").append(phone);
+        sb.append(", email=").append(email);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);
+        sb.append(", avatar=").append(avatar);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

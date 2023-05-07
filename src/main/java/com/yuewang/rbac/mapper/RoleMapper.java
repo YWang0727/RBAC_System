@@ -1,6 +1,6 @@
-package generator.mapper;
+package com.yuewang.rbac.mapper;
 
-import generator.entity.Role;
+import com.yuewang.rbac.model.entity.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

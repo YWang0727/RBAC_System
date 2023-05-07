@@ -1,9 +1,9 @@
-package generator.service.impl;
+package com.yuewang.rbac.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import generator.entity.UserRole;
-import generator.service.UserRoleService;
-import generator.mapper.UserRoleMapper;
+import com.yuewang.rbac.model.entity.UserRole;
+import com.yuewang.rbac.service.UserRoleService;
+import com.yuewang.rbac.mapper.UserRoleMapper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole>
-    implements UserRoleService{
+    implements UserRoleService {
 
 }
 
