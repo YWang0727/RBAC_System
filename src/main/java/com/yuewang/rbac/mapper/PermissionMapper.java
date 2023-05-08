@@ -3,6 +3,8 @@ package com.yuewang.rbac.mapper;
 import com.yuewang.rbac.model.entity.Permission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.Set;
+
 /**
 * @author Sarah Wang
 * @description 针对表【permission】的数据库操作Mapper
@@ -11,6 +13,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface PermissionMapper extends BaseMapper<Permission> {
 
+    Set<Long> selectIdsByUserId(Long userId);
 }
 
 

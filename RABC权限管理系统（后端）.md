@@ -63,6 +63,14 @@ src/main/java
    - static：静态资源目录，比如 JS、CSS、图片等。
    - templates：模板文件目录，比如 Thymeleaf 模板文件等。
 - test：测试目录，包含测试代码和配置文件等。
+## 整体逻辑
+1.前端登录窗口传入登录参数  
+2.后端通过@RequestMapping决定使用哪个Controller  
+3.参数通过@RequestBody传入指定Controller  
+4.通过@Valid验证参数  
+5.参数传入Service层中的Service接口，通过接口传入具体实现类（impl）中的具体实现方法  
+6.在Service具体实现方法中做处理，如数据库查询匹配、set VO等，并返回一个VO给Controller  
+7.
 # 项目特点
 
 - 权限管理：页面权限、按钮权限（操作权限）、数据权限(数据权限暂未完成）
@@ -314,7 +322,16 @@ public class RegisterParam {
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683453128815-7b9f45a2-4857-410b-aa69-6279302b5670.png#averageHue=%23fbfafa&clientId=u567c33e7-6148-4&from=paste&height=461&id=u0a4b513b&originHeight=576&originWidth=593&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38970&status=done&style=none&taskId=u8f9f7901-ccbf-49ad-904e-c8616feb340&title=&width=474.4)
 # 配置日志
-设置日志级别
+设置日志级别：
+日志一共分成5个等级（分别对应5种打日志的方法，默认的是WARNING，当在WARNING或之上时才被跟踪），从低到高分别是：
+- DEBUG：详细的信息,通常只出现在诊断问题上
+- INFO：确认一切按预期运行
+- WARNING：一个迹象表明,一些意想不到的事情发生了,或表明一些问题在不久的将来(例如。磁盘空间低”)。这个软件还能按预期工作。
+- ERROR：更严重的问题,软件没能执行一些功能
+- CRITICAL：一个严重的错误,这表明程序本身可能无法继续运行
+
+
+【 DEBUG 级别比 INFO 低，包含调试时更详细的了解系统运行状态的东西，比如变量的值等等，都可以输出到 DEBUG 日志里。INFO 是在线日志默认的输出级别，反馈系统的当前状态给最终用户看的。输出的信息，应该对最终用户具有实际意义的。】
 ```yaml
 logging:
   level:
@@ -337,7 +354,7 @@ public class AuthFilter  extends AbstractSecurityInterceptor implements Filter {
 }
 ```
 # 配置mybatisPlus分页插件
-```yaml
+```java
 @Configuration
 @MapperScan("com.imyuanxiao.rbac.mapper")
 public class MybatisPlusConfig {
@@ -350,7 +367,9 @@ public class MybatisPlusConfig {
     }
 }
 ```
-这段代码配置的是 MyBatis Plus 的分页插件。MyBatis Plus 提供了多种分页插件，其中 PaginationInnerInterceptor 是其中一种实现。在上面的代码中，我们创建了一个 MybatisPlusInterceptor 的 Bean，并将 PaginationInnerInterceptor 添加到其中，然后将其返回。
+这段代码配置的是 MyBatis Plus 的分页插件。MyBatis Plus 提供了多种分页插件（本质就是内部封装了一个拦截器，对于满足条件的数据进行过滤处理），其中 PaginationInnerInterceptor 是其中一种实现。
+
+在上面的代码中，我们创建了一个 MybatisPlusInterceptor 的 Bean，并将 PaginationInnerInterceptor 添加到其中，然后将其返回。
 如果不使用分页插件，MyBatis Plus 默认使用的是物理分页，也就是在 SQL 语句中添加 LIMIT 和 OFFSET 子句来实现分页。这种分页方式的缺点是，如果数据量非常大，查询的性能会非常差。
 # 引入swagger
 Swagger是一个开源的API文档生成工具，可以自动生成RESTful API的文档，方便开发者快速了解API的请求方式、请求参数、响应数据等信息，提高开发效率和API使用的便捷性。

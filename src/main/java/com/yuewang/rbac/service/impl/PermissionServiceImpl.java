@@ -6,6 +6,8 @@ import com.yuewang.rbac.service.PermissionService;
 import com.yuewang.rbac.mapper.PermissionMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 /**
 * @author Sarah Wang
 * @description 针对表【permission】的数据库操作Service实现
@@ -15,6 +17,10 @@ import org.springframework.stereotype.Service;
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission>
     implements PermissionService{
 
+    @Override
+    public Set<Long> getIdsByUserId(Long userId) {
+        return baseMapper.selectIdsByUserId(userId);
+    }
 }
 
 
