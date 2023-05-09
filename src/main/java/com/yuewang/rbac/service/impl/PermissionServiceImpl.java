@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 /**
-* @author Sarah Wang
+* @author Yue Wang
 * @description 针对表【permission】的数据库操作Service实现
 * @createDate 2023-05-07 18:25:05
 */

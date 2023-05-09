@@ -6,6 +6,8 @@ import com.yuewang.rbac.model.param.LoginParam;
 import com.yuewang.rbac.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Set;
+
 /**
 * @author Yue Wang
 * @description 针对表【user】的数据库操作Service
@@ -15,4 +17,8 @@ public interface UserService extends IService<User> {
     User getUserByUsername(String username) throws ApiException;
 
     UserVO login(LoginParam loginParam) throws ApiException;
+
+    Set<Long> myPermission(String username) throws ApiException;
+
+    String updateToken(String username) throws ApiException;
 }

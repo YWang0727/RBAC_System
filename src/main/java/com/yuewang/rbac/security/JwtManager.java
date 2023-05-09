@@ -2,11 +2,14 @@ package com.yuewang.rbac.security;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.exceptions.ValidateException;
 import cn.hutool.jwt.Claims;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import cn.hutool.jwt.JWTValidator;
 import cn.hutool.jwt.signers.JWTSignerUtil;
+import com.yuewang.rbac.enums.ResultCode;
+import com.yuewang.rbac.exception.ApiException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -59,24 +62,31 @@ public class JwtManager {
      * @author imyuanxiao
      * @date 14:54 2023/5/7
      * @param token jwt token
-     * @throws RuntimeException Throw an exception if verification fails.
+     * @throws ApiException Throw an exception if verification fails.
      **/
-    public static void verifyToken(String token) {
+    public static void verifyToken(String token) throws ApiException {  //verify: signature + algorithm + datetime
+        // verify signature
+        // JWTUtil.verify: the first param is the JWT string to be verified, and the second is the secret key used for signing the JWT
+        // JWTSignerUtil.hs256(): generate the signing key for the HMAC-SHA256 algorithm, is a symmetric key algorithm to sign the JWT payload
+        boolean verify = JWTUtil.verify(token, JWTSignerUtil.hs256(secretKeyBytes));
+        if(!verify) {
+            throw new ApiException(ResultCode.INVALID_TOKEN);
+        }
+
+        // verify algorithm and datetime
+        JWTValidator validator = JWTValidator.of(token);
         // throw exception when failed(expired\invalid)
         try {
-            // verify signature
-            boolean verify = JWTUtil.verify(token, JWTSignerUtil.hs256(secretKeyBytes));
-            if(!verify) {
-                throw new RuntimeException("Signature verification failed.");
-            }
-            JWTValidator validator = JWTValidator.of(token);
             // verify algorithm
             validator.validateAlgorithm(JWTSignerUtil.hs256(secretKeyBytes));
+        } catch (ValidateException e) {
+            throw new ApiException(ResultCode.INVALID_TOKEN);
+        }
+        try {
             // verify datetime
             JWTValidator.of(token).validateDate();
-        } catch (Exception e) {
-            log.error("Signature verification failed:" + e.getMessage());
-            throw new RuntimeException(e.getMessage());
+        } catch (ValidateException e) {
+            throw new ApiException(ResultCode.TOKEN_EXPIRED);
         }
     }
 
@@ -87,7 +97,7 @@ public class JwtManager {
      * @param token token to parse
      * @return Parse the JWT token to a JWTPayload object if successful
      **/
-    private static Claims extractAllClaims(String token) {  //get payload
+    private static Claims extractAllClaims(String token) throws ApiException {  //get payload
         verifyToken(token);
         return JWTUtil.parseToken(token).getPayload();
     }
@@ -99,7 +109,7 @@ public class JwtManager {
      * @param token token to parse
      * @return Return username if successful
      **/
-    public static String extractUsername(String token) {  //get username
+    public static String extractUsername(String token) throws ApiException {  //get username
         Claims claims = extractAllClaims(token);
         return String.valueOf(claims.getClaim(JWTPayload.SUBJECT));
     }

@@ -8,6 +8,9 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.Accessors;
 
 /**
  * 
@@ -15,7 +18,9 @@ import lombok.Data;
  */
 @TableName(value ="user")
 @Data
-public class User implements Serializable {
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity implements Serializable {
     /**
      * 
      */

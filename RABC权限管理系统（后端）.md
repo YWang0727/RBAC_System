@@ -63,14 +63,15 @@ src/main/java
    - static：静态资源目录，比如 JS、CSS、图片等。
    - templates：模板文件目录，比如 Thymeleaf 模板文件等。
 - test：测试目录，包含测试代码和配置文件等。
-## 整体逻辑
+## 结构逻辑
 1.前端登录窗口传入登录参数  
 2.后端通过@RequestMapping决定使用哪个Controller  
 3.参数通过@RequestBody传入指定Controller  
 4.通过@Valid验证参数  
 5.参数传入Service层中的Service接口，通过接口传入具体实现类（impl）中的具体实现方法  
 6.在Service具体实现方法中做处理，如数据库查询匹配、set VO等，并返回一个VO给Controller  
-7.
+## 功能逻辑
+1.AuthController: 用户登录（数据库校验/权限获取/token update + 手机验证码）+ 注册接口
 # 项目特点
 
 - 权限管理：页面权限、按钮权限（操作权限）、数据权限(数据权限暂未完成）

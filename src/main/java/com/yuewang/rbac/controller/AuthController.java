@@ -7,15 +7,14 @@ import com.yuewang.rbac.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.AuthProvider;
+import java.util.Set;
 
 @Slf4j
 @Validated
@@ -37,6 +36,19 @@ public class AuthController {
     //and do validation to the param
     public UserVO login(@RequestBody @Valid LoginParam param) throws ApiException {
         return userService.login(param);
+    }
+
+    @PostMapping("/my-permission")
+    @ApiOperation(value = "Get current UserVO's permission when route changes")
+    public Set<Long> myPermission(@RequestBody @NotBlank String username) throws ApiException {
+        // get user in context
+        return userService.myPermission(username);
+    }
+
+    @PostMapping("/update-token")
+    @ApiOperation(value = "Update token")
+    public String updateToken(@RequestBody String username) throws ApiException {
+        return userService.updateToken(username);
     }
 
 }

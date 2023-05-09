@@ -1,6 +1,7 @@
 package com.yuewang.rbac.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuewang.rbac.enums.ResultCode;
 import com.yuewang.rbac.exception.ApiException;
@@ -12,11 +13,14 @@ import com.yuewang.rbac.service.PermissionService;
 import com.yuewang.rbac.service.RoleService;
 import com.yuewang.rbac.service.UserService;
 import com.yuewang.rbac.mapper.UserMapper;
+import com.yuewang.rbac.util.SecurityContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
 * @author Yue Wang
@@ -62,6 +66,35 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
                 .setToken(JwtManager.generate(user.getUsername()))  //generate a JWT for authentication and authorisation
                 .setPermissionIds(permissionService.getIdsByUserId(user.getId()));
         return userVO;
+    }
+
+    @Override
+    public Set<Long> myPermission(String username) throws ApiException {  // get current user's permission set
+        User user = checkTokenWithUsername(username);
+        return permissionService.getIdsByUserId(user.getId());
+    }
+
+    // check if the username extracted from the JWT token is valid and consistent with the currently logged-in user
+    private static User checkTokenWithUsername(String username) throws ApiException {
+        // cast json string into object, and get the username from the token from front end
+        username = (String) JSONUtil.parseObj(username).get("username");
+        if(StrUtil.isBlank(username)){
+            throw new ApiException(ResultCode.VALIDATE_FAILED, "Invalid username.");
+        }
+        // get the current user from the security context and compares it with the username from JWT token
+        User user = SecurityContextUtil.getCurrentUser();
+        if(!username.equals(user.getUsername())){
+            throw new ApiException(ResultCode.VALIDATE_FAILED, "The currently logged-in user is not consistent with the user in the token.");
+        }
+        return user;
+    }
+
+    @Override
+    public String updateToken(String username) throws ApiException {
+        User user = checkTokenWithUsername(username);
+        //JwtManager.generate(): takes a username and generates a new JWT token with an expiration time and other claims
+        //refresh the JWT token for the current user
+        return JwtManager.generate(user.getUsername());
     }
 
 }
