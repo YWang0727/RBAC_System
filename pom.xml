@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yuewang</groupId>
-    <artifactId>RABCManagementSystem</artifactId>
+    <artifactId>RBAC</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>RABCManagementSystem</name>
-    <description>RABCManagementSystem</description>
+    <name>RBAC</name>
+    <description>RBACManagementSystem</description>
     <properties>
         <java.version>17</java.version>
     </properties>

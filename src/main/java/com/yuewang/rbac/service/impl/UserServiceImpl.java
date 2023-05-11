@@ -1,6 +1,8 @@
 package com.yuewang.rbac.service.impl;
 
+//StrUtil: offers functions like checking if a string is blank or empty, trimming whitespace, joining strings, replacing parts of a string, and many more
 import cn.hutool.core.util.StrUtil;
+//JSONUtil: provides methods to parse JSON strings, convert Java objects to JSON, and vice versa. It also supports operations like extracting values from JSON, modifying JSON objects, formatting JSON strings, and more
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuewang.rbac.enums.ResultCode;
@@ -8,6 +10,7 @@ import com.yuewang.rbac.exception.ApiException;
 import com.yuewang.rbac.model.VO.UserVO;
 import com.yuewang.rbac.model.entity.User;
 import com.yuewang.rbac.model.param.LoginParam;
+import com.yuewang.rbac.model.param.UserParam;
 import com.yuewang.rbac.security.JwtManager;
 import com.yuewang.rbac.service.PermissionService;
 import com.yuewang.rbac.service.RoleService;
@@ -69,6 +72,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
+    public void createUser(UserParam param){
+        if (lambdaQuery().eq(User::getUsername, param.getUsername()).one() != null) {
+            throw new ApiException(ResultCode.FAILED,"Username already exists.");
+        }
+        User user = new User();
+    }
+
+    @Override
     public Set<Long> myPermission(String username) throws ApiException {  // get current user's permission set
         User user = checkTokenWithUsername(username);
         return permissionService.getIdsByUserId(user.getId());
@@ -95,6 +106,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         //JwtManager.generate(): takes a username and generates a new JWT token with an expiration time and other claims
         //refresh the JWT token for the current user
         return JwtManager.generate(user.getUsername());
+    }
+
+    @Override
+    public void update(UserParam param){
+
     }
 
 }

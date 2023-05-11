@@ -10,7 +10,7 @@ import lombok.Getter;
  * @Date 2023/5/8 17:22
  **/
 @Getter
-public class ApiException extends Throwable {
+public class ApiException extends RuntimeException {
 
     private ResultCode resultCode;
     private String msg;

@@ -5,6 +5,7 @@ import com.yuewang.rbac.model.VO.UserVO;
 import com.yuewang.rbac.model.param.LoginParam;
 import com.yuewang.rbac.model.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yuewang.rbac.model.param.UserParam;
 
 import java.util.Set;
 
@@ -18,7 +19,11 @@ public interface UserService extends IService<User> {
 
     UserVO login(LoginParam loginParam) throws ApiException;
 
+    void createUser(UserParam param);
+
     Set<Long> myPermission(String username) throws ApiException;
 
     String updateToken(String username) throws ApiException;
+
+    void update(UserParam param);
 }

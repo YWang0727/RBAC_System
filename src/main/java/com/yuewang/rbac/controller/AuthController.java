@@ -1,8 +1,10 @@
 package com.yuewang.rbac.controller;
 
+import cn.hutool.core.util.RandomUtil;
 import com.yuewang.rbac.exception.ApiException;
 import com.yuewang.rbac.model.VO.UserVO;
 import com.yuewang.rbac.model.param.LoginParam;
+import com.yuewang.rbac.model.param.RegisterParam;
 import com.yuewang.rbac.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,5 +52,28 @@ public class AuthController {
     public String updateToken(@RequestBody String username) throws ApiException {
         return userService.updateToken(username);
     }
+
+//    @GetMapping("/code/{phone}")
+//    @ApiOperation(value = "Get phone verification code")
+//    public String sendCode(@PathVariable("phone") @NotBlank String phone){
+//        //TODO check whethere this is code for this phone in redis
+//
+//        //TODO if phone is valid, send captcha to phone
+//        String code = RandomUtil.randomNumbers(4);
+//        //TODO send code to phone
+//
+//        //TODO save phone + code to redis
+//
+//        return "验证码已发送至手机号：" + phone + ",验证码为："+ code;
+//    }
+
+
+//    @PostMapping("/register")
+//    @ApiOperation(value = "Register by phone")
+//    public UserVO register(@RequestBody RegisterParam param){
+//        //TODO get Code from redis according to phone
+//        //TODO verify code and phone
+//        return userService.register(param);
+//    }
 
 }
