@@ -1,6 +1,7 @@
 package com.yuewang.rbac.service.impl;
 
 //StrUtil: offers functions like checking if a string is blank or empty, trimming whitespace, joining strings, replacing parts of a string, and many more
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 //JSONUtil: provides methods to parse JSON strings, convert Java objects to JSON, and vice versa. It also supports operations like extracting values from JSON, modifying JSON objects, formatting JSON strings, and more
 import cn.hutool.json.JSONUtil;
@@ -110,7 +111,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public void update(UserParam param){
+        updateRoles(param);
+    }
 
+    private void updateRoles(UserParam param){
+        //delete the old user role
+        roleService.removeByUserId(param.getId());
+        //if new role ids is empty, return directly
+        if(CollectionUtil.isEmpty(param.getRoleIds())){
+            return;
+        }
+        //else, add new user roles to the user
+        roleService.insertRolesByUserId(param.getId(), param.getRoleIds());
     }
 
 }

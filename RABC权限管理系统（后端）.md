@@ -70,11 +70,13 @@ src/main/java
 4.参数传入对应param entity通过@Valid验证参数  
 5.参数传入Service层中的Service接口，通过接口传入具体实现类（impl）中的具体实现方法  
 6.在Service具体实现方法中做处理，如数据库查询匹配、set VO等，并返回一个VO给Controller  
+7.如果实现时要对数据库做增删改，如果MyBatis的IService接口中没有对应的业务方法，需要自己在对应的Mapper.java和Mapper.xml文件（baseMapper）中增加接口和方法，来对数据库进行修改
 ## 功能逻辑
 ### AuthController
 - 功能：用户登录（数据库校验/权限获取/token update + 手机验证码）+ 注册  
 - 使用：Validation（用于校验表单字段）、Security（passwordEncoder：检验密码、JWTManager：生成JWT）
 ### UserController
+- 功能：新增用户、删除用户、用户角色role更新、获取用户信息、获取用户权限
 # 项目特点
 
 - 权限管理：页面权限、按钮权限（操作权限）、数据权限(数据权限暂未完成）

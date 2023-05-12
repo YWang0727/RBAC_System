@@ -16,4 +16,12 @@
         id,name,description,
         created_time,updated_time
     </sql>
+
+    <!--add new roles by user id-->
+    <insert id="insertRolesByUserId">
+        insert into user_role(user_id, role_id) values
+        <foreach collection="roleIds" separator="," item="roleId">
+            (#{userId}, #{roleId})
+        </foreach>
+    </insert>
 </mapper>
