@@ -21,6 +21,17 @@
         updated_time
     </sql>
 
+    <insert id="insertPermissionByRoleId">
+        insert into role_permission(role_id, permission_id) values
+        <foreach collection="permissionIds" separator="," item="permissionId">
+            (#{roleId}, #{permissionId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleId">
+        delete from role_permission where role_id = #{roleId}
+    </delete>
+
     <!--get permission id by user id-->
     <select id="selectIdsByUserId" resultType="java.lang.Long">
         SELECT
@@ -30,5 +41,10 @@
                 INNER JOIN role_permission rr ON ur.role_id = rr.role_id
         WHERE
             ur.user_id = #{userId}
+    </select>
+
+    <!--get permission id by role id-->
+    <select id="selectIdsByRoleId" resultType="java.lang.Long">
+        select permission_id from role_permission where role_id = #{roleId}
     </select>
 </mapper>

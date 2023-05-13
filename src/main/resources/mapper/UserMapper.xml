@@ -19,4 +19,13 @@
         phone,email,created_time,
         updated_time,avatar
     </sql>
+
+    <select id="selectPage" resultType="com.yuewang.rbac.model.VO.UserPageVO">
+        select
+        id, username
+        from
+        user
+        <!--is a dynamic SQL snippert, will generate the corresponding SQL conditions at runtime -->
+        ${ew.customSqlSegment}
+    </select>
 </mapper>

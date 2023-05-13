@@ -24,4 +24,25 @@
             (#{userId}, #{roleId})
         </foreach>
     </insert>
+
+    <!--delete roles by user id-->
+    <delete id="deleteByUserId">
+        delete from user_role where user_id = #{userId}
+    </delete>
+
+    <!--select page-->
+    <select id="selectPage" resultType="com.yuewang.rbac.model.VO.RolePageVO">
+        select
+            id, name
+        from
+            role
+                <!--is a dynamic SQL snippert, will generate the corresponding SQL conditions at runtime -->
+                ${ew.customSqlSegment}
+    </select>
+
+    <!--select role ids by user id-->
+    <select id="selectIdsByUserId" resultType="java.lang.Long">
+        select role_id from user_role where user_id = #{userId}
+    </select>
+
 </mapper>

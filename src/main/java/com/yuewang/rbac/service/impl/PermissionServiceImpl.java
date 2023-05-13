@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuewang.rbac.model.entity.Permission;
 import com.yuewang.rbac.service.PermissionService;
 import com.yuewang.rbac.mapper.PermissionMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -21,6 +23,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public Set<Long> getIdsByUserId(Long userId) {
         return baseMapper.selectIdsByUserId(userId);
     }
+
+
 }
 
 

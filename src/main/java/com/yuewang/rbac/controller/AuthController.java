@@ -40,17 +40,17 @@ public class AuthController {
         return userService.login(param);
     }
 
-    @PostMapping("/my-permission")
+    @GetMapping("/my-permission")
     @ApiOperation(value = "Get current UserVO's permission when route changes")
-    public Set<Long> myPermission(@RequestBody @NotBlank String username) throws ApiException {
+    public Set<Long> myPermission() throws ApiException {
         // get user in context
-        return userService.myPermission(username);
+        return userService.myPermission();
     }
 
-    @PostMapping("/update-token")
+    @GetMapping("/update-token")
     @ApiOperation(value = "Update token")
-    public String updateToken(@RequestBody String username) throws ApiException {
-        return userService.updateToken(username);
+    public String updateToken() throws ApiException {
+        return userService.updateToken();
     }
 
 //    @GetMapping("/code/{phone}")

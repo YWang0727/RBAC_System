@@ -1,8 +1,13 @@
 package com.yuewang.rbac.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuewang.rbac.enums.ResultCode;
 import com.yuewang.rbac.exception.ApiException;
+import com.yuewang.rbac.model.VO.RolePageVO;
+import com.yuewang.rbac.model.VO.UserPageVO;
 import com.yuewang.rbac.model.entity.User;
 import com.yuewang.rbac.model.param.UserParam;
 import com.yuewang.rbac.service.PermissionService;
@@ -23,7 +28,7 @@ import java.util.Set;
 //will turn the return value of the controller to JSON\XML or other format and pass to client via HTTP
 //is the combination of @Controller and @ResponseBody
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -75,10 +80,14 @@ public class UserController {
         return permissionService.getIdsByUserId(id);
     }
 
-//    @GetMapping("/page/{current}&{pageSize}")
-//    @Auth(id = 6, name = "分页查询用户信息")
-//    @ApiOperation(value = "Page through user information")
-//    public IPage<UserPageVO> getPage(@PathVariable("current") int current, @PathVariable("pageSize") int pageSize) {
-
-//    }
+    @GetMapping("/page/{current}&{pageSize}")
+    //@Auth(id = 6, name = "page through user information")
+    @ApiOperation(value = "Page through user information")
+    public IPage<UserPageVO> getPage(@PathVariable("current") int current, @PathVariable("pageSize") int pageSize) {
+        Page<UserPageVO > page = new Page<>();  //Page: implements from IPage
+        OrderItem orderItem = new OrderItem();  //OrderItem: from MyBatis, to construct the order condition in SQL query
+        orderItem.setColumn("id");  //order by "id"
+        page.setCurrent(current).setSize(pageSize).addOrder(orderItem);  //set current pages\order to PageVO
+        return userService.selectPage(page);
+    }
 }

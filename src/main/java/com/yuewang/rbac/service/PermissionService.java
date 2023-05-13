@@ -3,7 +3,9 @@ package com.yuewang.rbac.service;
 import com.yuewang.rbac.model.entity.Permission;
 import com.baomidou.mybatisplus.extension.service.IService;
 import lombok.Setter;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -14,4 +16,5 @@ import java.util.Set;
 public interface PermissionService extends IService<Permission> {
 
     Set<Long> getIdsByUserId(Long userId);
+
 }

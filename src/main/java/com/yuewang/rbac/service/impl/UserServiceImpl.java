@@ -5,9 +5,13 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 //JSONUtil: provides methods to parse JSON strings, convert Java objects to JSON, and vice versa. It also supports operations like extracting values from JSON, modifying JSON objects, formatting JSON strings, and more
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuewang.rbac.enums.ResultCode;
 import com.yuewang.rbac.exception.ApiException;
+import com.yuewang.rbac.model.VO.UserPageVO;
 import com.yuewang.rbac.model.VO.UserVO;
 import com.yuewang.rbac.model.entity.User;
 import com.yuewang.rbac.model.param.LoginParam;
@@ -78,35 +82,43 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new ApiException(ResultCode.FAILED,"Username already exists.");
         }
         User user = new User();
+        //set default password 12345
+        user.setUsername(param.getUsername()).setPassword(passwordEncoder.encode("12345"));
+        save(user);  //save(): from MyBatis, do INSERT, save the entity to database
+        if(CollectionUtil.isEmpty(param.getRoleIds())){
+            return;
+        }
+        //if not empty, add roles to table [user-role]
+        roleService.insertRolesByUserId(user.getId(), param.getRoleIds());
     }
 
     @Override
-    public Set<Long> myPermission(String username) throws ApiException {  // get current user's permission set
-        User user = checkTokenWithUsername(username);
-        return permissionService.getIdsByUserId(user.getId());
+    public Set<Long> myPermission() throws ApiException {  // get current user's permission set
+        Long currentUserId = SecurityContextUtil.getCurrentUserId();
+        return permissionService.getIdsByUserId(currentUserId);
     }
 
-    // check if the username extracted from the JWT token is valid and consistent with the currently logged-in user
-    private static User checkTokenWithUsername(String username) throws ApiException {
-        // cast json string into object, and get the username from the token from front end
-        username = (String) JSONUtil.parseObj(username).get("username");
-        if(StrUtil.isBlank(username)){
-            throw new ApiException(ResultCode.VALIDATE_FAILED, "Invalid username.");
-        }
-        // get the current user from the security context and compares it with the username from JWT token
-        User user = SecurityContextUtil.getCurrentUser();
-        if(!username.equals(user.getUsername())){
-            throw new ApiException(ResultCode.VALIDATE_FAILED, "The currently logged-in user is not consistent with the user in the token.");
-        }
-        return user;
-    }
+//    // check if the username extracted from the JWT token is valid and consistent with the currently logged-in user
+//    private static User checkTokenWithUsername(String username) throws ApiException {
+//        // cast json string into object, and get the username from the token from front end
+//        username = (String) JSONUtil.parseObj(username).get("username");
+//        if(StrUtil.isBlank(username)){
+//            throw new ApiException(ResultCode.VALIDATE_FAILED, "Invalid username.");
+//        }
+//        // get the current user from the security context and compares it with the username from JWT token
+//        User user = SecurityContextUtil.getCurrentUser();
+//        if(!username.equals(user.getUsername())){
+//            throw new ApiException(ResultCode.VALIDATE_FAILED, "The currently logged-in user is not consistent with the user in the token.");
+//        }
+//        return user;
+//    }
 
     @Override
-    public String updateToken(String username) throws ApiException {
-        User user = checkTokenWithUsername(username);
+    public String updateToken() throws ApiException {
+        String username = SecurityContextUtil.getCurrentUser().getUsername();
         //JwtManager.generate(): takes a username and generates a new JWT token with an expiration time and other claims
         //refresh the JWT token for the current user
-        return JwtManager.generate(user.getUsername());
+        return JwtManager.generate(username);
     }
 
     @Override
@@ -123,6 +135,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
         //else, add new user roles to the user
         roleService.insertRolesByUserId(param.getId(), param.getRoleIds());
+    }
+
+    @Override
+    public IPage<UserPageVO> selectPage(Page<UserPageVO> page){
+        QueryWrapper<UserPageVO> queryWrapper = new QueryWrapper<>();
+        Long myId = SecurityContextUtil.getCurrentUserId();
+        // set condition: exclude super admin (id:1) and current user
+        queryWrapper.ne("id", myId).ne("id", 1);
+        // Get page info
+        IPage<UserPageVO> pages = baseMapper.selectPage(page, queryWrapper);
+        // Get rolse for all users
+        for (UserPageVO vo : pages.getRecords()) {
+            vo.setRoleIds(roleService.getIdsByUserId(vo.getId()));
+        }
+        return pages;
     }
 
 }

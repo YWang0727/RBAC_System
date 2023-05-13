@@ -1,6 +1,9 @@
 package com.yuewang.rbac.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yuewang.rbac.exception.ApiException;
+import com.yuewang.rbac.model.VO.UserPageVO;
 import com.yuewang.rbac.model.VO.UserVO;
 import com.yuewang.rbac.model.param.LoginParam;
 import com.yuewang.rbac.model.entity.User;
@@ -21,9 +24,11 @@ public interface UserService extends IService<User> {
 
     void createUser(UserParam param);
 
-    Set<Long> myPermission(String username) throws ApiException;
+    Set<Long> myPermission() throws ApiException;
 
-    String updateToken(String username) throws ApiException;
+    String updateToken() throws ApiException;
 
     void update(UserParam param);
+
+    IPage<UserPageVO> selectPage(Page<UserPageVO> page);
 }

@@ -76,7 +76,9 @@ src/main/java
 - 功能：用户登录（数据库校验/权限获取/token update + 手机验证码）+ 注册  
 - 使用：Validation（用于校验表单字段）、Security（passwordEncoder：检验密码、JWTManager：生成JWT）
 ### UserController
-- 功能：新增用户、删除用户、用户角色role更新、获取用户信息、获取用户权限
+- 功能：新增用户（用户名、密码、角色）、删除用户、用户更新（实质上更新的是用户的role）、获取用户信息、获取用户权限
+### RoleController
+- 功能：新增角色、删除角色、角色更新（实质上更新的是角色的permission）
 # 项目特点
 
 - 权限管理：页面权限、按钮权限（操作权限）、数据权限(数据权限暂未完成）

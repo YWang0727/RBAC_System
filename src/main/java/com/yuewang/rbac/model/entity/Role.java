@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 
@@ -14,7 +16,9 @@ import lombok.Data;
  */
 @TableName(value ="role")
 @Data
-public class Role implements Serializable {
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
+public class Role extends BaseEntity implements Serializable {
     /**
      * 
      */
