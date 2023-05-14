@@ -17,6 +17,7 @@ import com.yuewang.rbac.service.RoleService;
 import com.yuewang.rbac.mapper.RoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -28,6 +29,7 @@ import java.util.Set;
 * @createDate 2023-05-07 18:25:11
 */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     implements RoleService {
 
@@ -86,6 +88,20 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>
     @Override
     public Set<Long> getIdsByUserId(Long userId){
         return baseMapper.selectIdsByUserId(userId);
+    }
+
+    @Override
+    public boolean removeRolesByIds(Collection<?> idList) {
+        if (CollectionUtil.isEmpty(idList)) {
+            return false;
+        }
+        // remove role's permissions
+        for (Object roleId : idList) {
+            permissionMapper.deleteByRoleId((Long)roleId);
+        }
+        // delete role
+        baseMapper.deleteBatchIds(idList);
+        return true;
     }
 
 }

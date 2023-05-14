@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.ArrayUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yuewang.rbac.annotation.Auth;
 import com.yuewang.rbac.enums.ResultCode;
 import com.yuewang.rbac.exception.ApiException;
 import com.yuewang.rbac.model.VO.RolePageVO;
@@ -12,6 +13,7 @@ import com.yuewang.rbac.model.entity.User;
 import com.yuewang.rbac.model.param.UserParam;
 import com.yuewang.rbac.service.PermissionService;
 import com.yuewang.rbac.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,8 @@ import java.util.Set;
 //is the combination of @Controller and @ResponseBody
 @RestController
 @RequestMapping("/user")
+@Auth(id = 1000, name = "user Management Interface")
+@Api(tags = "User Management Interface")
 public class UserController {
 
     @Autowired
@@ -38,7 +42,7 @@ public class UserController {
     private PermissionService permissionService;
 
     @PostMapping("/add")
-    //@Auth(id = 1, name = "add user")
+    @Auth(id = 1, name = "add user")
     @ApiOperation(value = "Add user")
     public String createUser(@RequestBody @Validated(UserParam.CreateUser.class) UserParam param) {
         userService.createUser(param);
@@ -46,9 +50,9 @@ public class UserController {
     }
 
     @DeleteMapping("/delete")
-    //@Auth(id = 2, name = "delete user")
+    @Auth(id = 2, name = "delete user")
     @ApiOperation(value = "Delete user")
-    public String deleteUser(Long[] ids) {
+    public String deleteUser(@RequestBody Long[] ids) {
         if (ArrayUtils.isEmpty(ids)) {  //a utility method that checks if an array is empty or null
             throw new ApiException(ResultCode.VALIDATE_FAILED);
         }
@@ -57,7 +61,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    //@Auth(id = 3, name = "update user")
+    @Auth(id = 3, name = "update user")
     @ApiOperation(value = "Update user")
     public String updateUser(@RequestBody @Validated(UserParam.Update.class) UserParam param) {
         userService.update(param);

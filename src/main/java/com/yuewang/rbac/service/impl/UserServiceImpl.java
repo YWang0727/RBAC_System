@@ -82,9 +82,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new ApiException(ResultCode.FAILED,"Username already exists.");
         }
         User user = new User();
-        //set default password 12345
-        user.setUsername(param.getUsername()).setPassword(passwordEncoder.encode("12345"));
-        save(user);  //save(): from MyBatis, do INSERT, save the entity to database
+        // Default password = username
+        user.setUsername(param.getUsername()).setPassword(passwordEncoder.encode(param.getUsername()));        save(user);  //save(): from MyBatis, do INSERT, save the entity to database
         if(CollectionUtil.isEmpty(param.getRoleIds())){
             return;
         }
@@ -145,7 +144,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         queryWrapper.ne("id", myId).ne("id", 1);
         // Get page info
         IPage<UserPageVO> pages = baseMapper.selectPage(page, queryWrapper);
-        // Get rolse for all users
+        // Get roles for all users
         for (UserPageVO vo : pages.getRecords()) {
             vo.setRoleIds(roleService.getIdsByUserId(vo.getId()));
         }

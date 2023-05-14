@@ -20,6 +20,8 @@ public interface RoleService extends IService<Role> {
 
     void createRole(RoleParam param);
 
+    boolean removeRolesByIds(Collection<?> idList);
+
     void removeByUserId(Serializable userId);
 
     void insertRolesByUserId(Long userId, Collection<Long> roleIds);

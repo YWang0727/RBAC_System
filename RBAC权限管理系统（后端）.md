@@ -1,10 +1,7 @@
+# 项目简介
 基于Spring Boot + MySQL + MyBatis Plus + Spring Security + JWT 打造RBAC通用权限管理系统（Role-Based Access Controller基于角色访问控制模型）
-# 知识准备
-
-
-
-
-
+# 参考资料
+[【项目实践】SpringBoot三招组合拳，手把手教你打出优雅的后端接口](https://zhuanlan.zhihu.com/p/340620501)<br />[【项目实践】后端接口统一规范的同时，如何优雅地扩展规范](https://zhuanlan.zhihu.com/p/342463219)<br />[【项目实践】一文带你搞定Session和JWT](https://zhuanlan.zhihu.com/p/342744060)<br />[【项目实践】一文带你搞定页面权限、按钮权限以及数据权限](https://zhuanlan.zhihu.com/p/342746910)<br />[【项目实践】一文带你搞定Spring Security + JWT实现前后端分离下的认证授权](https://zhuanlan.zhihu.com/p/342755411)
 # 项目结构
 ```
 src/main/java
@@ -63,6 +60,14 @@ src/main/java
    - static：静态资源目录，比如 JS、CSS、图片等。
    - templates：模板文件目录，比如 Thymeleaf 模板文件等。
 - test：测试目录，包含测试代码和配置文件等。
+# 项目特点
+
+- 权限管理：页面权限、按钮权限（操作权限）、数据权限(数据权限暂未完成）
+- 登录鉴权：jwt token + NoSession，轻量级的身份验证和授权机制
+- 全局异常处理+全局过滤器+全局拦截器
+- 统一响应体
+- 数据校验
+- spring security 进行登录认证和权限管理的应用
 ## 结构逻辑
 1.前端登录窗口传入登录参数  
 2.后端通过@RequestMapping决定使用哪个Controller  
@@ -79,14 +84,7 @@ src/main/java
 - 功能：新增用户（用户名、密码、角色）、删除用户、用户更新（实质上更新的是用户的role）、获取用户信息、获取用户权限
 ### RoleController
 - 功能：新增角色、删除角色、角色更新（实质上更新的是角色的permission）
-# 项目特点
 
-- 权限管理：页面权限、按钮权限（操作权限）、数据权限(数据权限暂未完成）
-- 登录鉴权：jwt token + NoSession，轻量级的身份验证和授权机制
-- 全局异常处理+全局过滤器+全局拦截器
-- 统一响应体
-- 数据校验
-- spring security 进行登录认证和权限管理的应用
 # 数据库设计
 
 1. 用户表（User table）- 用于存储用户的基本信息，如用户名、密码等。该表应该包含一个唯一的用户ID字段，以便在其他表中引用该用户。
@@ -186,8 +184,7 @@ CREATE TABLE role_permission (
 3. created_time：角色权限关系创建时间，DATETIME类型，用于记录角色权限关系的创建时间。
 4. updated_time：角色权限关系更新时间，DATETIME类型，用于记录角色权限关系的更新时间。
 # 创建项目
-工具：IDEA
-spring-boot版本：2.7.12
+工具：IDEA<br />spring-boot版本：2.7.12
 ```xml
 <dependencies>
 
@@ -253,13 +250,9 @@ spring-boot版本：2.7.12
 </dependencies>
 ```
 # 统一java注解规范
-先定义统一的注释规范，方便对类和方法进行说明。
-
+先定义统一的注释规范，方便对类和方法进行说明。<br />[Intellij IDEA设置类和方法注释（javadoc）_JayXu6888的博客-CSDN博客](https://blog.csdn.net/Sora_Xu/article/details/102707225)
 # 根据数据库表建立对应的类
-使用插件：MybatisX-generator（不适用于spring3.0以上版本）
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683070915504-3bae7d6c-256c-4b23-b4fe-0c8a0c9e2671.png#averageHue=%233d4144&clientId=u70ac31dc-1256-4&from=paste&height=502&id=u52b5dda1&originHeight=627&originWidth=1144&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29256&status=done&style=none&taskId=ud34d46aa-7bb6-4514-8a7e-89f1862ce4a&title=&width=915.2)
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683070932308-8d24a3c8-abeb-4f9a-9ab1-91b2556bfe88.png#averageHue=%233c4043&clientId=u70ac31dc-1256-4&from=paste&height=502&id=u7f206000&originHeight=627&originWidth=1144&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=41813&status=done&style=none&taskId=u1026657e-e61c-406e-988f-c0fce8e4749&title=&width=915.2)
-记得在启动类上加mapper包路径
+使用插件：MybatisX-generator（不适用于spring3.0以上版本）<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683070915504-3bae7d6c-256c-4b23-b4fe-0c8a0c9e2671.png#averageHue=%233d4144&clientId=u70ac31dc-1256-4&from=paste&height=502&id=u52b5dda1&originHeight=627&originWidth=1144&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=29256&status=done&style=none&taskId=ud34d46aa-7bb6-4514-8a7e-89f1862ce4a&title=&width=915.2)<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683070932308-8d24a3c8-abeb-4f9a-9ab1-91b2556bfe88.png#averageHue=%233c4043&clientId=u70ac31dc-1256-4&from=paste&height=502&id=u7f206000&originHeight=627&originWidth=1144&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=41813&status=done&style=none&taskId=u1026657e-e61c-406e-988f-c0fce8e4749&title=&width=915.2)<br />记得在启动类上加mapper包路径
 ```java
 @SpringBootApplication
 @MapperScan(basePackages = "com.imyuanxiao.rbac.mapper")
@@ -330,16 +323,7 @@ public class RegisterParam {
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683453128815-7b9f45a2-4857-410b-aa69-6279302b5670.png#averageHue=%23fbfafa&clientId=u567c33e7-6148-4&from=paste&height=461&id=u0a4b513b&originHeight=576&originWidth=593&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=38970&status=done&style=none&taskId=u8f9f7901-ccbf-49ad-904e-c8616feb340&title=&width=474.4)
 # 配置日志
-设置日志级别：
-日志一共分成5个等级（分别对应5种打日志的方法，默认的是WARNING，当在WARNING或之上时才被跟踪），从低到高分别是：
-- DEBUG：详细的信息,通常只出现在诊断问题上
-- INFO：确认一切按预期运行
-- WARNING：一个迹象表明,一些意想不到的事情发生了,或表明一些问题在不久的将来(例如。磁盘空间低”)。这个软件还能按预期工作。
-- ERROR：更严重的问题,软件没能执行一些功能
-- CRITICAL：一个严重的错误,这表明程序本身可能无法继续运行
-
-
-【 DEBUG 级别比 INFO 低，包含调试时更详细的了解系统运行状态的东西，比如变量的值等等，都可以输出到 DEBUG 日志里。INFO 是在线日志默认的输出级别，反馈系统的当前状态给最终用户看的。输出的信息，应该对最终用户具有实际意义的。】
+设置日志级别
 ```yaml
 logging:
   level:
@@ -362,7 +346,7 @@ public class AuthFilter  extends AbstractSecurityInterceptor implements Filter {
 }
 ```
 # 配置mybatisPlus分页插件
-```java
+```yaml
 @Configuration
 @MapperScan("com.imyuanxiao.rbac.mapper")
 public class MybatisPlusConfig {
@@ -375,13 +359,9 @@ public class MybatisPlusConfig {
     }
 }
 ```
-这段代码配置的是 MyBatis Plus 的分页插件。MyBatis Plus 提供了多种分页插件（本质就是内部封装了一个拦截器，对于满足条件的数据进行过滤处理），其中 PaginationInnerInterceptor 是其中一种实现。
-
-在上面的代码中，我们创建了一个 MybatisPlusInterceptor 的 Bean，并将 PaginationInnerInterceptor 添加到其中，然后将其返回。
-如果不使用分页插件，MyBatis Plus 默认使用的是物理分页，也就是在 SQL 语句中添加 LIMIT 和 OFFSET 子句来实现分页。这种分页方式的缺点是，如果数据量非常大，查询的性能会非常差。
+这段代码配置的是 MyBatis Plus 的分页插件。MyBatis Plus 提供了多种分页插件，其中 PaginationInnerInterceptor 是其中一种实现。在上面的代码中，我们创建了一个 MybatisPlusInterceptor 的 Bean，并将 PaginationInnerInterceptor 添加到其中，然后将其返回。<br />如果不使用分页插件，MyBatis Plus 默认使用的是物理分页，也就是在 SQL 语句中添加 LIMIT 和 OFFSET 子句来实现分页。这种分页方式的缺点是，如果数据量非常大，查询的性能会非常差。
 # 引入swagger
-Swagger是一个开源的API文档生成工具，可以自动生成RESTful API的文档，方便开发者快速了解API的请求方式、请求参数、响应数据等信息，提高开发效率和API使用的便捷性。
-
+Swagger是一个开源的API文档生成工具，可以自动生成RESTful API的文档，方便开发者快速了解API的请求方式、请求参数、响应数据等信息，提高开发效率和API使用的便捷性。<br />[Springboot 2.6.7+swagger 3.0.0 集成使用_springboot2.6.7-CSDN博客](https://blog.csdn.net/newposte/article/details/124772142)
 ```xml
 <!--用于解决swagger报错问题-->
 <dependency>
@@ -453,10 +433,7 @@ public class UserController {
 }
 ```
 ## 测试
-[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-注意：spring security 测试需要登录，默认用户名user，密码在服务器启动时会给
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683074171363-eba55b06-9e11-4e2f-bff0-c24ee0fd4d40.png#averageHue=%23352d2c&clientId=u70ac31dc-1256-4&from=paste&height=111&id=u87ec2bd4&originHeight=139&originWidth=960&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=24177&status=done&style=none&taskId=u95d476d3-a4fe-4f03-bfa3-18c84ff0dea&title=&width=768)
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683499601228-6b794868-6728-40e6-a316-406d776e0650.png#averageHue=%23e0c4a0&clientId=u567c33e7-6148-4&from=paste&height=146&id=ue25cef38&originHeight=183&originWidth=751&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13089&status=done&style=none&taskId=u86096ee2-6878-44fa-86ba-85f11464958&title=&width=600.8)
+[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)<br />注意：spring security 测试需要登录，默认用户名user，密码在服务器启动时会给<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683074171363-eba55b06-9e11-4e2f-bff0-c24ee0fd4d40.png#averageHue=%23352d2c&clientId=u70ac31dc-1256-4&from=paste&height=111&id=u87ec2bd4&originHeight=139&originWidth=960&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=24177&status=done&style=none&taskId=u95d476d3-a4fe-4f03-bfa3-18c84ff0dea&title=&width=768)<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683499601228-6b794868-6728-40e6-a316-406d776e0650.png#averageHue=%23e0c4a0&clientId=u567c33e7-6148-4&from=paste&height=146&id=ue25cef38&originHeight=183&originWidth=751&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=13089&status=done&style=none&taskId=u86096ee2-6878-44fa-86ba-85f11464958&title=&width=600.8)
 ## 补充：配置spring security后
 配置spring security框架后，如果无法访问swagger相关内容，需要做以下配置：
 ### 修改SpringSecurityConfig
@@ -489,7 +466,7 @@ public class SpringSecurityConfig {
     }
 ```
 ### 修改SwaggerConfig
-
+[Swagger中怎么处理认证问题？](https://zhuanlan.zhihu.com/p/444025131)
 ```java
 @Configuration
 @EnableSwagger2
@@ -534,9 +511,7 @@ public class SwaggerConfig {
     
 }
 ```
-看到右下角这个授权的按钮就OK了
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683462099758-8f745b2e-211a-4a64-bdeb-f9b04ba80417.png#averageHue=%23fbfbfb&clientId=u567c33e7-6148-4&from=paste&height=291&id=u809328d0&originHeight=364&originWidth=747&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=16358&status=done&style=none&taskId=u25850ea1-f98b-403e-91bf-c01f0678a3d&title=&width=597.6)
-以下是Swagger常用的注解：
+看到右下角这个授权的按钮就OK了<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683462099758-8f745b2e-211a-4a64-bdeb-f9b04ba80417.png#averageHue=%23fbfbfb&clientId=u567c33e7-6148-4&from=paste&height=291&id=u809328d0&originHeight=364&originWidth=747&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=16358&status=done&style=none&taskId=u25850ea1-f98b-403e-91bf-c01f0678a3d&title=&width=597.6)<br />以下是Swagger常用的注解：
 
 - @Api: 用于控制整个类的Swagger文档，描述接口类的基本信息和可见范围。
 - @ApiOperation: 用于描述单个接口的信息，包括接口名称、接口方法、接口说明等。
@@ -743,8 +718,7 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
 # 配置JWT
 JWT（JSON Web Token）是一种用于身份验证和授权的开放标准（RFC 7519），它定义了一种紧凑且自包含的方式，用于在各方之间安全地以 JSON 对象的形式传输信息。JWT 通常被用于客户端和服务器之间的身份验证和授权，以及在微服务之间传递用户信息。它由三部分组成：头部、载荷和签名。其中头部包含了令牌类型和使用的算法，载荷包含了令牌所携带的信息，签名则用于验证令牌的真实性和完整性。JWT 通过使用密钥对令牌进行签名，保证了令牌的真实性和完整性。JWT 相比于传统的 Session 和 Cookie 方案，更加灵活，因为它可以在各个服务之间共享，并且无状态，避免了服务器端保存 Session 的问题。
 ## 引入依赖
-此处我使用的是hutools工具包里的JWTUtil
-[Hutool参考文档](https://hutool.cn/docs/#/jwt/JWT%E5%B7%A5%E5%85%B7-JWTUtil)
+此处我使用的是hutools工具包里的JWTUtil<br />[Hutool参考文档](https://hutool.cn/docs/#/jwt/JWT%E5%B7%A5%E5%85%B7-JWTUtil)
 ```xml
 <dependency>
     <groupId>cn.hutool</groupId>
@@ -838,15 +812,9 @@ public String testToken(HttpServletRequest request) {
     return "api成功返回数据";
 }
 ```
-此处使用POSTMAN客户端进行测试
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683137304595-f8f14e9b-6cb3-4fbb-adb5-69e2fdfb5aba.png#averageHue=%23fbf7f7&clientId=u70ac31dc-1256-4&from=paste&height=443&id=u6a943971&originHeight=554&originWidth=1115&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=68137&status=done&style=none&taskId=ub3d24c07-af16-4925-8976-dfd2672ea42&title=&width=892)
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683137351412-3688aff6-a2a2-4544-ab5c-6d5a44d7c1b0.png#averageHue=%23fbfbfa&clientId=u70ac31dc-1256-4&from=paste&height=398&id=u79ae0f7e&originHeight=498&originWidth=1118&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56727&status=done&style=none&taskId=uccd0e67a-4b00-4745-81ee-9224280cfa4&title=&width=894.4)
-可以使用[https://jwt.io/](https://jwt.io/)官网提供的debugger根据解析jwt
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683229479541-6439bdcb-13b6-40a8-864b-81d2b80becc0.png#averageHue=%23fdfdfd&clientId=u1c85c078-a627-4&from=paste&height=418&id=ua2d52ea3&originHeight=522&originWidth=1167&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=61316&status=done&style=none&taskId=u8f14a939-27bf-493e-badd-04538c7d366&title=&width=933.6)
+此处使用POSTMAN客户端进行测试<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683137304595-f8f14e9b-6cb3-4fbb-adb5-69e2fdfb5aba.png#averageHue=%23fbf7f7&clientId=u70ac31dc-1256-4&from=paste&height=443&id=u6a943971&originHeight=554&originWidth=1115&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=68137&status=done&style=none&taskId=ub3d24c07-af16-4925-8976-dfd2672ea42&title=&width=892)<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683137351412-3688aff6-a2a2-4544-ab5c-6d5a44d7c1b0.png#averageHue=%23fbfbfa&clientId=u70ac31dc-1256-4&from=paste&height=398&id=u79ae0f7e&originHeight=498&originWidth=1118&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=56727&status=done&style=none&taskId=uccd0e67a-4b00-4745-81ee-9224280cfa4&title=&width=894.4)<br />可以使用[https://jwt.io/](https://jwt.io/)官网提供的debugger根据解析jwt<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683229479541-6439bdcb-13b6-40a8-864b-81d2b80becc0.png#averageHue=%23fdfdfd&clientId=u1c85c078-a627-4&from=paste&height=418&id=ua2d52ea3&originHeight=522&originWidth=1167&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=61316&status=done&style=none&taskId=u8f14a939-27bf-493e-badd-04538c7d366&title=&width=933.6)
 # 配置登录拦截器
-拦截器（Interceptor）是一种在 Web 应用程序中拦截处理请求的组件，可以在请求被处理前和响应被发送回客户端之后，对请求和响应进行修改和处理。在 Spring 框架中，拦截器通过实现 HandlerInterceptor 接口来定义，并可以通过配置将其与请求路径进行映射，使得拦截器可以被应用到特定的请求路径上。
-登录拦截器用于在所有请求之前通过jwt token验证是否登录。
-注：后面配置spring security后，用过滤器代替了拦截器。
+拦截器（Interceptor）是一种在 Web 应用程序中拦截处理请求的组件，可以在请求被处理前和响应被发送回客户端之后，对请求和响应进行修改和处理。在 Spring 框架中，拦截器通过实现 HandlerInterceptor 接口来定义，并可以通过配置将其与请求路径进行映射，使得拦截器可以被应用到特定的请求路径上。<br />登录拦截器用于在所有请求之前通过jwt token验证是否登录。<br />注：后面配置spring security后，用过滤器代替了拦截器。
 ```java
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -873,8 +841,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 }
 ```
 ## 注册拦截器
-WebMvcConfigurer是Spring MVC提供的一个接口，用于在Spring MVC配置中添加自定义配置。通过实现该接口，我们可以添加自定义的拦截器、视图解析器、静态资源处理器等。
-如果要注册拦截器，需要在配置类中重写addInterceptors方法并在其中添加自定义拦截器。这是因为Spring MVC中需要通过WebMvcConfigurer接口的实现类来添加自定义拦截器，而WebMvcConfigurer接口中并没有直接添加拦截器的方法。因此，我们需要在实现类中重写addInterceptors方法，然后通过该方法来添加自定义拦截器。
+WebMvcConfigurer是Spring MVC提供的一个接口，用于在Spring MVC配置中添加自定义配置。通过实现该接口，我们可以添加自定义的拦截器、视图解析器、静态资源处理器等。<br />如果要注册拦截器，需要在配置类中重写addInterceptors方法并在其中添加自定义拦截器。这是因为Spring MVC中需要通过WebMvcConfigurer接口的实现类来添加自定义拦截器，而WebMvcConfigurer接口中并没有直接添加拦截器的方法。因此，我们需要在实现类中重写addInterceptors方法，然后通过该方法来添加自定义拦截器。
 ```java
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -892,12 +859,9 @@ public class WebConfig implements WebMvcConfigurer {
 }
 ```
 ## 测试
-使用postman测试，会发现，除了/login路径，其他路径都被拦截了
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683140852426-19fb5ea9-b9e4-491c-bc06-5cc7e5d2e110.png#averageHue=%23fcfbfb&clientId=u70ac31dc-1256-4&from=paste&height=417&id=ud175e5cc&originHeight=521&originWidth=1130&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=55399&status=done&style=none&taskId=uecb3e7af-64a8-4f0e-8db9-0d8912ce063&title=&width=904)
+使用postman测试，会发现，除了/login路径，其他路径都被拦截了<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683140852426-19fb5ea9-b9e4-491c-bc06-5cc7e5d2e110.png#averageHue=%23fcfbfb&clientId=u70ac31dc-1256-4&from=paste&height=417&id=ud175e5cc&originHeight=521&originWidth=1130&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=55399&status=done&style=none&taskId=uecb3e7af-64a8-4f0e-8db9-0d8912ce063&title=&width=904)
 # 配置上下文对象
-在Web应用程序中，上下文对象通常用于在整个应用程序中共享数据和状态，例如存储全局配置、缓存、当前用户等信息。
-当用户token验证通过后，把用户信息加到上下文，这样所有方法内都可以直接获取该用户信息
-注：后面配置spring security后，用SecurityContext代替了自定义的上下文对象。
+在Web应用程序中，上下文对象通常用于在整个应用程序中共享数据和状态，例如存储全局配置、缓存、当前用户等信息。<br />当用户token验证通过后，把用户信息加到上下文，这样所有方法内都可以直接获取该用户信息<br />注：后面配置spring security后，用SecurityContext代替了自定义的上下文对象。
 ```java
 public final class UserContext {
     private static final ThreadLocal<String> user = new ThreadLocal<String>();
@@ -1004,8 +968,7 @@ public class RolePageVO {
 # 页面权限
 页面权限指用户是否可以访问某个页面或菜单。通常将页面权限定义为菜单或页面的访问权限，例如管理员可以访问用户管理菜单，普通用户只能访问自己的个人信息页面。
 
-用户（User）和角色（Role）绑定，比如管理员、用户、访客等；
-角色（Role）和权限（Permission）绑定，这里权限指可以访问的路径，比如/index、/login等；
+用户（User）和角色（Role）绑定，比如管理员、用户、访客等；<br />角色（Role）和权限（Permission）绑定，这里权限指可以访问的路径，比如/index、/login等；
 ## 配置Mppaer.xml
 ```xml
 <!--根据用户id批量新增角色-->
@@ -1222,9 +1185,7 @@ public class PermissionController {
 }
 ```
 # 操作权限
-操作权限指用户是否可以进行某个操作，例如新增、修改、删除等。通常将操作权限定义为功能点或按钮的权限，例如管理员可以进行用户管理操作，普通用户不能进行用户管理操作。
-下图中，红框部分为操作权限，type为1。
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683501074817-3f5748c5-68f6-4086-a28c-8d2f65e0f24e.png#averageHue=%23332d2d&clientId=u567c33e7-6148-4&from=paste&height=434&id=ub5cb6a41&originHeight=543&originWidth=701&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=79494&status=done&style=none&taskId=u2c2bce8e-4152-4eb5-8808-a7cfc96e7ef&title=&width=560.8)
+操作权限指用户是否可以进行某个操作，例如新增、修改、删除等。通常将操作权限定义为功能点或按钮的权限，例如管理员可以进行用户管理操作，普通用户不能进行用户管理操作。<br />下图中，红框部分为操作权限，type为1。<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683501074817-3f5748c5-68f6-4086-a28c-8d2f65e0f24e.png#averageHue=%23332d2d&clientId=u567c33e7-6148-4&from=paste&height=434&id=ub5cb6a41&originHeight=543&originWidth=701&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=79494&status=done&style=none&taskId=u2c2bce8e-4152-4eb5-8808-a7cfc96e7ef&title=&width=560.8)
 ## 通过注解管理接口权限
 通过代码将带有注解的接口信息批量添加到数据库，无需手动添加到数据库。类上加上Auth注解方便模块化管理接口权限，一个Controller类视为一套接口模块，最终接口权限的id就是模块id + 方法id。
 ## 设计注解
@@ -1326,11 +1287,9 @@ public class ApplicationStartup implements ApplicationRunner {
 
 ```
 ## 启动项目
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683475680306-be974102-c60f-457b-ae90-71ed2ee9222c.png#averageHue=%232e2d2d&clientId=u567c33e7-6148-4&from=paste&height=234&id=u2c33d32f&originHeight=292&originWidth=1265&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=54180&status=done&style=none&taskId=u234c0f2f-5af8-4b63-bc0d-cc2e281a9a2&title=&width=1012)
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683475706443-cae82378-d3be-40cb-964c-1dedd34a0747.png#averageHue=%232f2e2d&clientId=u567c33e7-6148-4&from=paste&height=341&id=u830d0417&originHeight=426&originWidth=714&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=61083&status=done&style=none&taskId=ubb2ed8cc-33b4-4cf1-8f71-725e4948217&title=&width=571.2)
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683475680306-be974102-c60f-457b-ae90-71ed2ee9222c.png#averageHue=%232e2d2d&clientId=u567c33e7-6148-4&from=paste&height=234&id=u2c33d32f&originHeight=292&originWidth=1265&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=54180&status=done&style=none&taskId=u234c0f2f-5af8-4b63-bc0d-cc2e281a9a2&title=&width=1012)<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683475706443-cae82378-d3be-40cb-964c-1dedd34a0747.png#averageHue=%232f2e2d&clientId=u567c33e7-6148-4&from=paste&height=341&id=u830d0417&originHeight=426&originWidth=714&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=61083&status=done&style=none&taskId=ubb2ed8cc-33b4-4cf1-8f71-725e4948217&title=&width=571.2)
 # 数据权限
-数据权限指用户是否可以访问、操作某些数据。通常将数据权限定义为数据访问或操作的权限，例如管理员可以访问或修改所有用户的数据，普通用户只能访问或修改自己的数据。数据权限可以细分为行级数据权限和列级数据权限，分别指用户可以访问或操作哪些数据行或数据列。
-通常数据权限需要在SQL语句中加入额外的限制条件，以实现只返回用户有权限访问的数据。这种限制条件可以基于用户的角色、部门、地区、时间等因素来确定，一般需要在代码中动态生成SQL语句，然后把生成的SQL语句发送到数据库执行。在实现过程中需要注意安全性问题，避免SQL注入等安全问题的出现。
+数据权限指用户是否可以访问、操作某些数据。通常将数据权限定义为数据访问或操作的权限，例如管理员可以访问或修改所有用户的数据，普通用户只能访问或修改自己的数据。数据权限可以细分为行级数据权限和列级数据权限，分别指用户可以访问或操作哪些数据行或数据列。<br />通常数据权限需要在SQL语句中加入额外的限制条件，以实现只返回用户有权限访问的数据。这种限制条件可以基于用户的角色、部门、地区、时间等因素来确定，一般需要在代码中动态生成SQL语句，然后把生成的SQL语句发送到数据库执行。在实现过程中需要注意安全性问题，避免SQL注入等安全问题的出现。
 ## 创建新表
 ```sql
 CREATE TABLE `company` (
@@ -1506,9 +1465,7 @@ public class MybatisPlusConfig {
 
 ```
 # SpringSecurity登录认证
-
-
-
+[【项目实践】一文带你搞定Spring Security + JWT实现前后端分离下的认证授权](https://zhuanlan.zhihu.com/p/342755411)<br />[springboot 2.7整合spring security 5.7整合jwt实现用户登录注册与鉴权全记录_ricardo.M.Yu的博客-CSDN博客](https://blog.csdn.net/yu619251940/article/details/126872454)<br />[Spring Boot 3 + Spring Security 6 - JWT Authentication and Authorisation [NEW] [2023]](https://www.youtube.com/watch?v=KxqlJblhzfI)
 ## 配置UserDetailsVO
 这个类是Spring Security框架中用于存储用户详情的一个实体类，实现了UserDetails接口，用于封装用户的基本信息和角色权限等信息。在这个类中，可以通过用户对象和角色集合构造方法，生成一个包含用户信息和权限的UserDetailsVO对象，并实现UserDetails接口的方法，用于在Spring Security中进行用户的认证和授权。
 ```java
@@ -1679,8 +1636,7 @@ public final class JwtManager {
 }
 ```
 ## 配置LoginFilter
-这个类是一个JWT认证的过滤器，在Spring Security中用来对接收到的请求进行处理。该过滤器主要作用是从 HTTP 头部提取 JWT Token，并从中提取出用户的认证信息。接着，根据该信息，获取用户详细信息、密码、角色信息等，最终生成包含用户详细信息的 UserDetailsVO 对象，并使用 UsernamePasswordAuthenticationToken 将其设置到当前线程的 SecurityContext 中，表示用户已经通过身份认证，并且具有相应的授权信息。
-注意，过滤器会在拦截器之前执行
+这个类是一个JWT认证的过滤器，在Spring Security中用来对接收到的请求进行处理。该过滤器主要作用是从 HTTP 头部提取 JWT Token，并从中提取出用户的认证信息。接着，根据该信息，获取用户详细信息、密码、角色信息等，最终生成包含用户详细信息的 UserDetailsVO 对象，并使用 UsernamePasswordAuthenticationToken 将其设置到当前线程的 SecurityContext 中，表示用户已经通过身份认证，并且具有相应的授权信息。<br />注意，过滤器会在拦截器之前执行
 ```java
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -1865,8 +1821,7 @@ public class AuthController {
 ![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683405706087-31b7c10b-681b-40bd-bb7e-c0a3cb8ea2d0.png#averageHue=%23fcfcfb&clientId=u567c33e7-6148-4&from=paste&height=646&id=u06e9fe21&originHeight=807&originWidth=1184&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=88852&status=done&style=none&taskId=u72fa0141-dd53-4227-be62-3414ffc9c2b&title=&width=947.2)
 # SpringSecurity权限认证
 ## 配置鉴权规则
-这个类是一个Spring Security的安全元数据源（SecurityMetadataSource），主要用于获取当前请求所需的访问权限资源，并将其与请求进行匹配，以决定当前请求是否需要授权才能访问。在该类中，通过注入PermissionService来获取当前系统中的所有权限资源，并将它们存储在一个静态变量PERMISSIONS中，以便在getAttributes()方法中遍历这些权限资源，以找到与当前请求所需的权限资源匹配的资源，并将其返回。如果当前请求无需授权即可访问，则该方法返回null。
-该类还实现了InitializingBean接口，它在MySecurityMetadataSource实例化之后执行init()方法，用于在系统启动时加载所有权限资源。
+这个类是一个Spring Security的安全元数据源（SecurityMetadataSource），主要用于获取当前请求所需的访问权限资源，并将其与请求进行匹配，以决定当前请求是否需要授权才能访问。在该类中，通过注入PermissionService来获取当前系统中的所有权限资源，并将它们存储在一个静态变量PERMISSIONS中，以便在getAttributes()方法中遍历这些权限资源，以找到与当前请求所需的权限资源匹配的资源，并将其返回。如果当前请求无需授权即可访问，则该方法返回null。<br />该类还实现了InitializingBean接口，它在MySecurityMetadataSource实例化之后执行init()方法，用于在系统启动时加载所有权限资源。
 ```java
 @Slf4j
 @Component("mySecurityMetadataSource")
@@ -2109,11 +2064,194 @@ public class TestController {
     }
 }
 ```
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683412321403-a8f25dcc-904d-4b7d-9512-27b624ee828d.png#averageHue=%23faf9f8&clientId=u567c33e7-6148-4&from=paste&height=414&id=ufd4d9072&originHeight=518&originWidth=602&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=43542&status=done&style=none&taskId=uf7fda0ac-b2db-468f-a7d2-689f7e953d0&title=&width=481.6)
-![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683412366199-c194395f-47a4-4e6a-94f7-426c9c85a5b9.png#averageHue=%23fbfbfa&clientId=u567c33e7-6148-4&from=paste&height=487&id=u21e0567d&originHeight=609&originWidth=774&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=52470&status=done&style=none&taskId=u675b87c3-9466-42a8-bf18-bf9e8842f44&title=&width=619.2)
+![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683412321403-a8f25dcc-904d-4b7d-9512-27b624ee828d.png#averageHue=%23faf9f8&clientId=u567c33e7-6148-4&from=paste&height=414&id=ufd4d9072&originHeight=518&originWidth=602&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=43542&status=done&style=none&taskId=uf7fda0ac-b2db-468f-a7d2-689f7e953d0&title=&width=481.6)<br />![image.png](https://cdn.nlark.com/yuque/0/2023/png/29364238/1683412366199-c194395f-47a4-4e6a-94f7-426c9c85a5b9.png#averageHue=%23fbfbfa&clientId=u567c33e7-6148-4&from=paste&height=487&id=u21e0567d&originHeight=609&originWidth=774&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=52470&status=done&style=none&taskId=u675b87c3-9466-42a8-bf18-bf9e8842f44&title=&width=619.2)
+# SpringSecurity跨域问题
+前端发送请求到后端，如果没有进行跨域配置，就会被拦截，需要做如下设置。
+```java
+@Configuration
+@EnableWebSecurity
+public class SpringSecurityConfig {
+    ...
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        ...
+        // Enable cross-origin resource sharing (CORS) to facilitate frontend calls to the API.
+        http.cors().configurationSource(corsConfigurationSource());
+        ...
+        return http.build();
+    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+    ...
+}
+```
 # 完善controller
-详见git仓库
-[https://github.com/imyuanxiao/rbac](https://github.com/imyuanxiao/rbac)
+详见git仓库<br />[https://github.com/imyuanxiao/rbac](https://github.com/imyuanxiao/rbac)
+# 后续更新
+根据前端开发进度，完善后端对应接口
+## UserVO
+增加返回信息：角色ID。注意，只需要返回id，前端根据id匹配名称，而且前端会做国际化工作。
+```java
+@Data
+@Accessors(chain = true)
+public class UserVO {
+
+    private Long id;
+
+    private String username;
+
+    private String token;
+
+    private Set<Long> roles;
+
+    private Set<Long> permissionIds;
+
+}
+```
+## 权限验证接口
+用户登录后，前端每次切换路由都会向后端发送请求，获取当前用户的权限信息，以防止用户权限发生变化。
+### AuthController
+增加方法获取用户信息，前端需要传token和用户名，如果token正确，用户信息会被保存在上下文对象中。之后验证用户名和token解析的用户名是否一致。
+```java
+public class AuthController {
+	...
+    @PostMapping("/my-permission")
+    @ApiOperation(value = "Get UserVO every time route changes")
+    public Set<Long> myPermission(@RequestBody @NotBlank String username){
+        // get user in context
+        return userService.myPermission(username);
+    }
+    ...
+}
+```
+注意，这里需要更改SpringSecurityConfig的允许绕过权限验证的路径，否则可以不需要token就调用myPermission()方法，会出错。我这里把原来的"/auth/**"换成了更具体的路径。
+```java
+public class SpringSecurityConfig {
+	...
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        ...
+        // This is a key configuration that determines which interfaces are protected and which interfaces bypass protection.
+        http.authorizeRequests()
+                ...
+                // Specifies that certain endpoints can be accessed without authentication.
+                .antMatchers(
+                        "/auth/login",
+                        "/auth/code/**",
+                        "/auth/register",
+                    ...)
+        }
+        ...
+}
+```
+### UserServiceImpl
+该类里主要提取公用方法，增加通过上下文获取用户信息的方法。<br />注意：用myPermission方法检查登录信息的时候，只返回用户权限合集。
+```java
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>
+    implements UserService, UserDetailsService {
+    ....
+    @Override
+    public UserVO login(LoginParam loginParam) {
+        // Verify user from database
+        User user = this.lambdaQuery()
+                .eq(StrUtil.isNotBlank(loginParam.getUsername()), User::getUsername, loginParam.getUsername())
+                .one();
+
+        // Throw error if user or password is wrong
+        if(user == null || !passwordEncoder.matches(loginParam.getPassword(), user.getPassword())){
+            throw new ApiException(ResultCode.VALIDATE_FAILED, "Username or password is incorrect！");
+        }
+        // Generate token, get and put user permissions in UserVO object
+        return getUserVO(user);
+    }
+    
+    @Override
+    public UserVO register(RegisterParam param) {
+        // Use phone and code to register, initial username is phone number
+        User user = new User().setUsername(param.getPhone())
+                .setPassword(passwordEncoder.encode(param.getPassword()))
+                .setPhone(param.getPhone());
+        try {
+            this.save(user);
+            // Add default user role - 3L visitor
+            roleService.insertRolesByUserId(user.getId(), List.of(3L));
+            // Get permissions id
+            Set<Long> permissionIds = permissionService.getIdsByUserId(user.getId());
+            // Put user info, token, permissions in UserVO object
+            return getUserVO(user);
+        } catch (Exception e) {
+            throw new ApiException(ResultCode.FAILED, "Phone number already exists.");
+        }
+    }
+
+    @Override
+    public Set<Long> myPermission() {
+        Long userId = SecurityContextUtil.getCurrentUserId();
+        return permissionService.getIdsByUserId(userId);
+    }
+
+    private UserVO getUserVO(User user) {
+        UserVO userVO = new UserVO();
+        BeanUtil.copyProperties(user, userVO);
+        userVO.setRoles(roleService.getIdsByUserId(user.getId()))
+                .setPermissionIds(permissionService.getIdsByUserId(user.getId()));
+        userVO.setToken(JwtManager.generate(user.getUsername()));
+        return userVO;
+    }
+    ...
+}
+```
+### SpringSecurityUtil
+```java
+public class SecurityContextUtil {
+    ...
+    /**
+     * Get user object from spring security context
+     * @author imyuanxiao
+     * @date 12:14 2023/5/9  
+     * @return User Object
+     **/
+    public static User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsVO userDetails = (UserDetailsVO)authentication.getPrincipal();
+        return userDetails.getUser();
+    }
+	...
+}
+
+```
+## token更新接口
+```java
+public class AuthController {
+    ...
+    @GetMapping("/update-token")
+    @ApiOperation(value = "Update token")
+    public String updateToken(){
+        return userService.updateToken();
+    }
+	...
+}
+```
+```java
+public class UserServiceImpl extends ServiceImpl<UserMapper, User>
+    implements UserService, UserDetailsService {
+    ...
+    @Overr  ide
+    public String updateToken() {
+        User user = SecurityContextUtil.getCurrentUser();
+        return JwtManager.generate(user.getUsername());
+    }
+    ...
+}
+```
 # 基于redis的验证码和token验证
 将验证码和token保存在redis数据库，用于手机号验证码校验和token有效性校验
 
