@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 
@@ -14,12 +16,14 @@ import lombok.Data;
  */
 @TableName(value ="permission")
 @Data
-public class Permission implements Serializable {
-    /**
-     * 
-     */
-    @TableField(value = "id")
-    private Long id;
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = true)
+public class Permission extends BaseEntity implements Serializable {
+//    /**
+//     *
+//     */
+//    @TableField(value = "id")
+//    private Long id;
 
     /**
      * 
@@ -31,7 +35,7 @@ public class Permission implements Serializable {
      * 
      */
     @TableField(value = "type")
-    private String type;
+    private Integer type;
 
     /**
      * 
@@ -101,7 +105,7 @@ public class Permission implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+//        sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", type=").append(type);
         sb.append(", url=").append(url);

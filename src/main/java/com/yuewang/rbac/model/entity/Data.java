@@ -17,11 +17,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Data extends BaseEntity {
-    /**
-     * data ID, unique
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+//    /**
+//     * data ID, unique
+//     */
+//    @TableId(value = "id", type = IdType.AUTO)
+//    private Long id;
 
     /**
      * data name, unique

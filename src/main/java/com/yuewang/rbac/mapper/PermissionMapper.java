@@ -27,6 +27,8 @@ public interface PermissionMapper extends BaseMapper<Permission> {
 
     Set<Long> selectIdsByRoleId(Long roleId);
 
+    int insertPermissions(@Param("permissions") Collection<Permission> permissions);
+
 }
 
 

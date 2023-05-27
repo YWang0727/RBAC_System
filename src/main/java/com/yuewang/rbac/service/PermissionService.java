@@ -17,4 +17,8 @@ public interface PermissionService extends IService<Permission> {
 
     Set<Long> getIdsByUserId(Long userId);
 
+    void deletePermissionByType(int type);
+
+    void insertPermissions(Collection<Permission> permissions);
+
 }

@@ -11,6 +11,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuewang.rbac.enums.ResultCode;
 import com.yuewang.rbac.exception.ApiException;
+import com.yuewang.rbac.model.VO.UserDetailsVO;
 import com.yuewang.rbac.model.VO.UserPageVO;
 import com.yuewang.rbac.model.VO.UserVO;
 import com.yuewang.rbac.model.entity.User;
@@ -24,11 +25,16 @@ import com.yuewang.rbac.mapper.UserMapper;
 import com.yuewang.rbac.util.SecurityContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
 * @author Yue Wang
@@ -38,7 +44,7 @@ import java.util.Set;
 @Slf4j
 @Service  //to note an implementation class in MyBatis - which is a bean
 public class UserServiceImpl extends ServiceImpl<UserMapper, User>
-    implements UserService{
+    implements UserService, UserDetailsService {
 
     @Autowired
     private PermissionService permissionService;
@@ -149,6 +155,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             vo.setRoleIds(roleService.getIdsByUserId(vo.getId()));
         }
         return pages;
+    }
+
+    // to implement UserDetailsService interface from Spring Security
+    // get user info from database by username, and convert it into a UserDetails object for Spring Security using
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // Get user by username
+        User user = this.getUserByUsername(username);
+        // Get permissionIds and tranfer them to `SimpleGrantedAuthority` Object
+        Set<SimpleGrantedAuthority> authorities = permissionService.getIdsByUserId(user.getId())
+                .stream()
+                .map(String::valueOf)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
+        return new UserDetailsVO(user, authorities);
     }
 
 }

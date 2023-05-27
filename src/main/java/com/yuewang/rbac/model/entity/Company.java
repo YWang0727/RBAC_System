@@ -18,11 +18,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Company extends BaseEntity {
-    /**
-     * company ID, unique
-     */
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+//    /**
+//     * company ID, unique
+//     */
+//    @TableId(value = "id", type = IdType.AUTO)
+//    private Long id;
 
     /**
      * company name, unique
@@ -80,7 +80,7 @@ public class Company extends BaseEntity {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+//        sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", createdTime=").append(createdTime);
         sb.append(", updatedTime=").append(updatedTime);

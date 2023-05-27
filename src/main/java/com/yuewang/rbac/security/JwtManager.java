@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @ClassName JwtManager
- * @Description Generation and management util for jwt token
+ * @Description Generation and management util for jwt token, provides methods to generate\verify\parse JWT
  * @Author Yue Wang
  * @Date 2023/5/8 18:18
  **/
@@ -35,13 +35,6 @@ public class JwtManager {
      */
     private final static Integer EXPIRATION = 30;
 
-    /**
-     * Generate jwt token
-     * @author imyuanxiao
-     * @date 14:54 2023/5/7
-     * @param userName username
-     * @return jwt token
-     **/
     public static String generate(String userName) {
         DateTime now = DateUtil.date();
         DateTime ddl = DateUtil.offsetMinute(now, EXPIRATION);
@@ -57,13 +50,6 @@ public class JwtManager {
         return "Bearer " + JWTUtil.createToken(map, secretKeyBytes);
     }
 
-    /**
-     * Verify token
-     * @author imyuanxiao
-     * @date 14:54 2023/5/7
-     * @param token jwt token
-     * @throws ApiException Throw an exception if verification fails.
-     **/
     public static void verifyToken(String token) throws ApiException {  //verify: signature + algorithm + datetime
         // verify signature
         // JWTUtil.verify: the first param is the JWT string to be verified, and the second is the secret key used for signing the JWT
@@ -90,25 +76,11 @@ public class JwtManager {
         }
     }
 
-    /**
-     * Parse token
-     * @author imyuanxiao
-     * @date 14:56 2023/5/7
-     * @param token token to parse
-     * @return Parse the JWT token to a JWTPayload object if successful
-     **/
     private static Claims extractAllClaims(String token) throws ApiException {  //get payload
         verifyToken(token);
         return JWTUtil.parseToken(token).getPayload();
     }
 
-    /**
-     * Extract username from token
-     * @author imyuanxiao
-     * @date 14:56 2023/5/7
-     * @param token token to parse
-     * @return Return username if successful
-     **/
     public static String extractUsername(String token) throws ApiException {  //get username
         Claims claims = extractAllClaims(token);
         return String.valueOf(claims.getClaim(JWTPayload.SUBJECT));

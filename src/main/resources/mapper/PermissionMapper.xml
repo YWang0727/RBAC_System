@@ -8,7 +8,7 @@
     <resultMap id="BaseResultMap" type="com.yuewang.rbac.model.entity.Permission">
             <result property="id" column="id" jdbcType="BIGINT"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
-            <result property="type" column="type" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
             <result property="url" column="url" jdbcType="VARCHAR"/>
             <result property="description" column="description" jdbcType="VARCHAR"/>
             <result property="createdTime" column="created_time" jdbcType="TIMESTAMP"/>
@@ -47,4 +47,12 @@
     <select id="selectIdsByRoleId" resultType="java.lang.Long">
         select permission_id from role_permission where role_id = #{roleId}
     </select>
+
+    <!--add permissions-->
+    <insert id="insertPermissions">
+        insert into permission(id, url, name, type) values
+        <foreach collection="permissions" separator="," item="permission">
+            (#{permission.id}, #{permission.url}, #{permission.name}, #{permission.type})
+        </foreach>
+    </insert>
 </mapper>

@@ -1,5 +1,7 @@
 package com.yuewang.rbac.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yuewang.rbac.model.entity.Permission;
 import com.yuewang.rbac.service.PermissionService;
@@ -24,6 +26,21 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return baseMapper.selectIdsByUserId(userId);
     }
 
+    @Override
+    public void deletePermissionByType(int type){
+        // delete all API-type resources(type = 1)
+        LambdaUpdateWrapper<Permission> wrapper = new LambdaUpdateWrapper<>();
+        wrapper.eq(Permission::getType, type);
+        baseMapper.delete(wrapper);
+    }
+
+    @Override
+    public void insertPermissions(Collection<Permission> permissions){
+        if(CollectionUtil.isEmpty(permissions)){
+            return;
+        }
+        baseMapper.insertPermissions(permissions);
+    }
 
 }
 

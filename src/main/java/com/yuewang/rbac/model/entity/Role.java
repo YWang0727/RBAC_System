@@ -19,11 +19,11 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
 public class Role extends BaseEntity implements Serializable {
-    /**
-     * 
-     */
-    @TableField(value = "id")
-    private Long id;
+//    /**
+//     *
+//     */
+//    @TableField(value = "id")
+//    private Long id;
 
     /**
      * 
@@ -89,7 +89,7 @@ public class Role extends BaseEntity implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+//        sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", description=").append(description);
         sb.append(", createdTime=").append(createdTime);

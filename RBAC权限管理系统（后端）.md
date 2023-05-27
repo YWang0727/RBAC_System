@@ -84,6 +84,10 @@ src/main/java
 - 功能：新增用户（用户名、密码、角色）、删除用户、用户更新（实质上更新的是用户的role）、获取用户信息、获取用户权限
 ### RoleController
 - 功能：新增角色、删除角色、角色更新（实质上更新的是角色的permission）
+### Database数据权限
+- 使用：创建数据权限表-DataController作为数据权限接口-自定义sql拦截器继承MyBatis Plus框架来进行语句拦截、修改sql语句-在MyBatisConfig的分页插件前设置拦截器
+### SpringSecurity登陆认证
+- 使用：配置UserDetailsVO-实现UserDetailsService接口-重写JwtUtil工具类，提供生成、验证和解析JWT的方法-配置LoginFilter用来对接收到的请求进行处理-配置SpringSecurityConfig（安全策略、权限控制等）
 
 # 数据库设计
 
